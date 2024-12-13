@@ -118,7 +118,7 @@
 		<repository>
 			<id>pccwPublic</id>
 			<name>PCCW-Public Repository</name>
-			<url>http://114.251.247.99:9080/repository/maven-public/</url>
+			<url>http://172.25.105.99:9080/repository/maven-public/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
