@@ -40,10 +40,10 @@
 	</select>
 
 	<insert id="registrySaveOrUpdate" >
-		INSERT INTO xxl_job_registry( `registry_group` , `registry_key` , `registry_value`, `update_time`)
+		INSERT INTO xxl_job_registry( registry_group , registry_key , registry_value, update_time)
 		VALUES( #{registryGroup}  , #{registryKey} , #{registryValue}, #{updateTime})
 		ON DUPLICATE KEY UPDATE
-			`update_time` = #{updateTime}
+			update_time = #{updateTime}
 	</insert>
 
 	<!--
