@@ -18,11 +18,11 @@ import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.enums.ExecutorBlockStrategyEnum;
 import com.xxl.job.core.glue.GlueTypeEnum;
 import com.xxl.job.core.util.DateUtil;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -61,7 +61,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 	}
 
 	@Override
-	public ReturnT<String> add(XxlJobInfo jobInfo) {
+	public ReturnT<String> add(XxlJobInfo jobInfo, XxlJobUser loginUser) {
 
 		// valid base
 		XxlJobGroup group = xxlJobGroupDao.load(jobInfo.getJobGroup());
@@ -131,6 +131,10 @@ public class XxlJobServiceImpl implements XxlJobService {
 						return new ReturnT<String>(ReturnT.FAIL_CODE,
 								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_not_found")), childJobIdItem));
 					}
+					if (!loginUser.validPermission(childJobInfo.getJobGroup())) {
+						return new ReturnT<String>(ReturnT.FAIL_CODE,
+								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_permission_limit")), childJobIdItem));
+					}
 				} else {
 					return new ReturnT<String>(ReturnT.FAIL_CODE,
 							MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_unvalid")), childJobIdItem));
@@ -169,7 +173,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 	}
 
 	@Override
-	public ReturnT<String> update(XxlJobInfo jobInfo) {
+	public ReturnT<String> update(XxlJobInfo jobInfo, XxlJobUser loginUser) {
 
 		// valid base
 		if (jobInfo.getJobDesc()==null || jobInfo.getJobDesc().trim().length()==0) {
@@ -218,10 +222,21 @@ public class XxlJobServiceImpl implements XxlJobService {
 			String[] childJobIds = jobInfo.getChildJobId().split(",");
 			for (String childJobIdItem: childJobIds) {
 				if (childJobIdItem!=null && childJobIdItem.trim().length()>0 && isNumeric(childJobIdItem)) {
-					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(Integer.parseInt(childJobIdItem));
+					// parse child
+					int childJobId = Integer.parseInt(childJobIdItem);
+					if (childJobId == jobInfo.getId()) {
+						return new ReturnT<String>(ReturnT.FAIL_CODE, (I18nUtil.getString("jobinfo_field_childJobId")+"("+childJobId+")"+I18nUtil.getString("system_unvalid")) );
+					}
+
+					// valid child
+					XxlJobInfo childJobInfo = xxlJobInfoDao.loadById(childJobId);
 					if (childJobInfo==null) {
 						return new ReturnT<String>(ReturnT.FAIL_CODE,
 								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_not_found")), childJobIdItem));
+					}
+					if (!loginUser.validPermission(childJobInfo.getJobGroup())) {
+						return new ReturnT<String>(ReturnT.FAIL_CODE,
+								MessageFormat.format((I18nUtil.getString("jobinfo_field_childJobId")+"({0})"+I18nUtil.getString("system_permission_limit")), childJobIdItem));
 					}
 				} else {
 					return new ReturnT<String>(ReturnT.FAIL_CODE,
@@ -305,7 +320,11 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 	@Override
 	public ReturnT<String> start(int id) {
+		// load and valid
 		XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+		if (xxlJobInfo == null) {
+			return new ReturnT<String>(ReturnT.FAIL.getCode(), I18nUtil.getString("jobinfo_glue_jobid_unvalid"));
+		}
 
 		// valid
 		ScheduleTypeEnum scheduleTypeEnum = ScheduleTypeEnum.match(xxlJobInfo.getScheduleType(), ScheduleTypeEnum.NONE);
@@ -337,8 +356,13 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 	@Override
 	public ReturnT<String> stop(int id) {
+		// load and valid
         XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+		if (xxlJobInfo == null) {
+			return new ReturnT<String>(ReturnT.FAIL.getCode(), I18nUtil.getString("jobinfo_glue_jobid_unvalid"));
+		}
 
+		// stop
 		xxlJobInfo.setTriggerStatus(0);
 		xxlJobInfo.setTriggerLastTime(0);
 		xxlJobInfo.setTriggerNextTime(0);

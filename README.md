@@ -10,8 +10,8 @@
         <a href="https://github.com/xuxueli/xxl-job/actions">
             <img src="https://github.com/xuxueli/xxl-job/workflows/Java%20CI/badge.svg" >
         </a>
-        <a href="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job/">
-            <img src="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job/badge.svg" >
+        <a href="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job-core/">
+            <img src="https://maven-badges.herokuapp.com/maven-central/com.xuxueli/xxl-job-core/badge.svg" >
         </a>
         <a href="https://github.com/xuxueli/xxl-job/releases">
          <img src="https://img.shields.io/github/release/xuxueli/xxl-job.svg" >
@@ -38,6 +38,32 @@ It's core design goal is to develop quickly and learn simple, lightweight, and e
 Now, it's already open source, and many companies use it in production environments, real "out-of-the-box".
 
 XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅速、学习简单、轻量级、易扩展。现已开放源代码并接入多家公司线上产品线，开箱即用。
+
+
+## Sponsor
+XXL-JOB is an open source and free project, with its ongoing development made possible entirely by the support of these awesome backers.
+
+XXL-JOB 是一个开源且免费项目，其正在进行的开发完全得益于支持者的支持。开源不易，[前往赞助项目开发](https://www.xuxueli.com/page/donate.html )
+
+<!-- supporter start -->
+<h3 style="color: #E6BE8A;" >金牌赞助方</h3>
+<table>
+<tr>
+    <td>
+        <a href="https://www.aliyun.com/product/aliware/mse?utm_content=g_1000401794" title="" target="_blank" >
+            <img width="150px" src="http://www.xuxueli.com/page/static/images/logo_aliyun2.png" >
+            <br>
+            <span style="text-decoration:underline;color: #E6BE8A;" >阿里云 提供云上托管 XXL-JOB</span>
+        </a>
+    </td>
+    <td>
+        <a href="https://www.mall4j.com/cn/?statId=10" title="" target="_blank" >
+            <img width="150px" src="http://www.xuxueli.com/page/static/images/logo_mail4j.png" >
+        </a>
+    </td>
+</tr>
+</table>
+<!-- supporter end -->
 
 
 ## Documentation
@@ -80,13 +106,13 @@ XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅�
 - 28、推送maven中央仓库: 将会把最新稳定版推送到maven中央仓库, 方便用户接入和使用;
 - 29、运行报表：支持实时查看运行数据，如任务数量、调度次数、执行器数量等；以及调度报表，如调度日期分布图，调度成功分布图等；
 - 30、全异步：任务调度流程全异步化设计实现，如异步调度、异步运行、异步回调等，有效对密集调度进行流量削峰，理论上支持任意时长任务的运行；
-- 31、跨语言：调度中心与执行器提供语言无关的 RESTful API 服务，第三方任意语言可据此对接调度中心或者实现执行器。除此之外，还提供了 “多任务模式”和“httpJobHandler”等其他跨语言方案；
+- 31、跨语言/OpenAPI：调度中心与执行器提供语言无关的 OpenApi（RESTful 格式），第三方任意语言可据此对接调度中心或者实现执行器，实现多语言支持。除此之外，还提供了 “多任务模式”和“httpJobHandler”等其他跨语言方案；
 - 32、国际化：调度中心支持国际化设置，提供中文、英文两种可选语言，默认为中文；
 - 33、容器化：提供官方docker镜像，并实时更新推送dockerhub，进一步实现产品开箱即用；
 - 34、线程池隔离：调度线程池进行隔离拆分，慢任务自动降级进入"Slow"线程池，避免耗尽调度线程，提高系统稳定性；
 - 35、用户管理：支持在线管理系统用户，存在管理员、普通用户两种角色；
 - 36、权限控制：执行器维度进行权限控制，管理员拥有全量权限，普通用户需要分配执行器权限后才允许相关操作；
-
+- 37、AI任务：原生提供AI执行器，并内置多个AI任务Handler，与spring-ai、ollama、dify等集成打通，支持快速开发AI类任务。
 
 ## Development
 于2015年中，我在github上创建XXL-JOB项目仓库并提交第一个commit，随之进行系统结构设计，UI选型，交互设计……
@@ -118,6 +144,8 @@ XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅�
 于2020-11-16，XXL-JOB参与"[2020年度最受欢迎中国开源软件](https://www.oschina.net/project/top_cn_2020)"评比，在当时已录入的一万多个开源项目中角逐，最终排名"开发框架和基础组件类"第8名。
 
 于2021-12-06，XXL-JOB参与"[2021年度OSC中国开源项目评选](https://www.oschina.net/project/top_cn_2021) "评比，在当时已录入的一万多个开源项目中角逐，最终当选"最受欢迎项目"。
+
+于2024-11-06，XXL-JOB经 GitCode 官方评审，获得 “G-Star项目毕业认证”。
 
 > 我司大众点评目前已接入XXL-JOB，内部别名《Ferrari》（Ferrari基于XXL-JOB的V1.1版本定制而成，新接入应用推荐升级最新版本）。
 据最新统计, 自2016-01-21接入至2017-12-01期间，该系统已调度约100万次，表现优异。新接入应用推荐使用最新版本，因为经过数十个版本的更新，系统的任务模型、UI交互模型以及底层调度通讯模型都有了较大的优化和提升，核心功能更加稳定高效。
@@ -778,6 +806,45 @@ XXL-JOB是一个分布式任务调度平台，其核心设计目标是开发迅�
     - 652、福建福昕软件开发股份有限公司【福昕】
     - 653、广州中长康达信息技术有限公司
     - 654、武汉趣改信息科技有限公司
+    - 655、北京华夏思源科技发展有限公司
+    - 656、宁波关关通科技有限公司
+    - 657、青岛吕氏餐饮有限公司
+    - 658、杭州乐刻网络科技有限公司
+    - 659、上海红瓦信息科技有限公司
+    - 660、陕西旅小宝信息科技有限公司
+    - 661、中科卓恒(大连)科技有限公司
+    - 662、北京华益精点生物技术有限公司
+    - 663、马士基（中国）航运有限公司【马士基】
+    - 664、陕西美咚网络科技有限公司
+    - 665、山东新北洋信息技术股份有限公司 
+    - 666、福建中瑞文化发展集团有限公司
+    - 667、黑龙江省建工集团有限责任公司【黑龙江省建工】
+    - 668、志信能达安全科技(广州)有限公司
+    - 669、重庆开源共创科技有限公司
+    - 670、华泰人寿保险股份有限公司【华泰人寿】
+    - 671、成都盘古纵横集团
+    - 672、北京果果乐学科技有限公司
+    - 673、北京凌云空间科技有限公司
+    - 674、临工重机股份有限公司
+    - 675、上海热风时尚管理集团【热风】
+    - 676、HashKey Exchange
+    - 677、傲基（深圳）跨境商务股份有限公司
+    - 678、青岛文达通科技股份有限公司
+    - 679、杭州普罗云科技有限公司
+    - 680、浙江云鹭科技有限公司
+    - 681、中山市芯宏柿网络科技有限公司
+    - 682、深圳市家家顺物联科技
+    - 683、重庆斑西科技有限公司
+    - 684、福建省泰古信息技术有限公司
+    - 685、贵阳永青仪电科技有限公司
+    - 686、广州博依特智能信息科技有限公司
+    - 687、河南宠呦呦信息技术有限公司
+    - 688、陕西星邑空间技术有限公司
+    - 689、广东西欧克实业有限公司
+    - 690、唱吧麦颂KTV
+    - 691、联通云
+    - 692、北京爱话本科技有限公司
+    - 693、北京起创科技有限公司
     - ……
 
 > 更多接入的公司，欢迎在 [登记地址](https://github.com/xuxueli/xxl-job/issues/1 ) 登记，登记仅仅为了产品推广。
@@ -797,10 +864,4 @@ This product is open source and free, and will continue to provide free communit
 - Licensed under the GNU General Public License (GPL) v3.
 - Copyright (c) 2015-present, xuxueli.
 
-产品开源免费，并且将持续提供免费的社区技术支持。个人或企业内部可自由的接入和使用。如有需要可邮件联系作者免费获取项目授权。
-
-
-## Donate
-No matter how much the donation amount is enough to express your thought, thank you very much ：）     [To donate](https://www.xuxueli.com/page/donate.html )
-
-无论捐赠金额多少都足够表达您这份心意，非常感谢 ：）      [前往捐赠](https://www.xuxueli.com/page/donate.html )
+产品开源免费，并且将持续提供免费的社区技术支持。个人或企业内部可自由的接入和使用。如有需要可 [邮件联系](https://www.xuxueli.com/page/community.html) 作者免费获取项目授权。
