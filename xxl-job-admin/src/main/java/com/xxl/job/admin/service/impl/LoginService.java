@@ -9,6 +9,8 @@ import com.xxl.job.core.biz.model.ReturnT;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -21,6 +23,8 @@ import java.math.BigInteger;
 public class LoginService {
 
     public static final String LOGIN_IDENTITY_KEY = "XXL_JOB_LOGIN_IDENTITY";
+
+    private static Logger logger = LoggerFactory.getLogger(LoginService.class);
 
     @Resource
     private XxlJobUserDao xxlJobUserDao;
@@ -52,13 +56,17 @@ public class LoginService {
             return new ReturnT<String>(500, I18nUtil.getString("login_param_empty"));
         }
 
+        logger.info("login:"+username+":"+password);
+
         // valid passowrd
         XxlJobUser xxlJobUser = xxlJobUserDao.loadByUserName(username);
         if (xxlJobUser == null) {
+            logger.info("xxlJobUser is null");
             return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
         }
         String passwordMd5 = DigestUtils.md5DigestAsHex(password.getBytes());
         if (!passwordMd5.equals(xxlJobUser.getPassword())) {
+            logger.info("passwordMd5:"+passwordMd5+" and xxlJobUser.getPassword():"+xxlJobUser.getPassword());
             return new ReturnT<String>(500, I18nUtil.getString("login_param_unvalid"));
         }
 
@@ -107,5 +115,7 @@ public class LoginService {
         return null;
     }
 
-
+    /*public static void main(String[] args) {
+        System.out.println(DigestUtils.md5DigestAsHex("123456".getBytes()));
+    }*/
 }
